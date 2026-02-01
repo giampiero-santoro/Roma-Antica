@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROMA ANTICA — Caput Mundi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --gold-deep: #8a6d1b;
+    --cream: #f4efe6;
+    --cream-dark: #e8dfd0;
+    --ink: #1a1510;
+    --ink-light: #3d342a;
+    --burgundy: #6b1d2e;
+    --burgundy-light: #8a2a42;
+    --stone: #b8ad9e;
+    --stone-light: #d4cfc5;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'EB Garamond', serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ─── TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(244,239,230,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gold-light);
+    transition: all 0.4s ease;
+  }
+
+  nav .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-deep);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  nav .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+  }
+
+  nav .nav-links a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+
+  nav .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+
+  nav .nav-links a:hover { color: var(--gold-deep); }
+  nav .nav-links a:hover::after { width: 100%; }
+
+  /* ─── HERO ─── */
+  .hero {
+    height: 100vh;
+    min-height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(107,29,46,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      linear-gradient(180deg, #1a1510 0%, #0f0d0a 100%);
+  }
+
+  /* Decorative arch SVG */
+  .hero-arch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    width: 520px;
+    height: 520px;
+    opacity: 0.06;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3.2rem, 10vw, 7.5rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--gold);
+    font-weight: 400;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.38em;
+    letter-spacing: 0.08em;
+    margin-top: 0.5rem;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 2rem auto 0;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .hero-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--stone-light);
+    max-width: 520px;
+    margin: 1.8rem auto 0;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+    line-height: 1.8;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .scroll-hint span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.3; transform: scaleY(0.6); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── INTRO STRIP ─── */
+  .intro-strip {
+    background: var(--burgundy);
+    padding: 2.2rem 2rem;
+    text-align: center;
+  }
+
+  .intro-strip p {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+
+  /* ─── SECTION STYLES ─── */
+  .section {
+    padding: 7rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4.5rem;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    display: block;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .section-ornament {
+    width: 50px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.5rem auto 0;
+  }
+
+  /* ─── ORIGINS ─── */
+  .origins-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .origins-text p {
+    font-size: 1.08rem;
+    color: var(--ink-light);
+    margin-bottom: 1.4rem;
+    line-height: 1.9;
+  }
+
+  .origins-legend {
+    background: var(--ink);
+    padding: 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .origins-legend::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+
+  .origins-legend::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -30px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: 50%;
+  }
+
+  .legend-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+  }
+
+  .legend-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .legend-year {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    white-space: nowrap;
+    padding-top: 2px;
+    min-width: 68px;
+  }
+
+  .legend-desc {
+    font-size: 0.92rem;
+    color: var(--stone-light);
+    line-height: 1.6;
+  }
+
+  /* ─── SEVEN HILLS ─── */
+  .hills-section {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+  }
+
+  .hills-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 7rem 2rem;
+  }
+
+  .hills-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.8rem;
+    align-items: end;
+    margin-top: 3rem;
+  }
+
+  .hill-card {
+    background: var(--cream);
+    border: 1px solid var(--stone-light);
+    padding: 1.6rem 0.9rem 1.2rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: default;
+  }
+
+  .hill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(26,21,16,0.12);
+  }
+
+  .hill-card .hill-icon {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hill-card .hill-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .hill-card .hill-note {
+    font-size: 0.8rem;
+    color: var(--stone);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline-section {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 20%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 90% 80%, rgba(107,29,46,0.06) 0%, transparent 60%);
+  }
+
+  .timeline-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 7rem 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-container .section-label { color: var(--gold); }
+  .timeline-container .section-title { color: var(--cream); }
+
+  .timeline {
+    position: relative;
+    padding-top: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold-deep), transparent);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: start;
+    margin-bottom: 2.8rem;
+  }
+
+  .timeline-item:nth-child(odd) .t-content { grid-column: 1; text-align: right; }
+  .timeline-item:nth-child(odd) .t-dot { grid-column: 2; }
+  .timeline-item:nth-child(odd) .t-spacer { grid-column: 3; }
+
+  .timeline-item:nth-child(even) .t-spacer { grid-column: 1; }
+  .timeline-item:nth-child(even) .t-dot { grid-column: 2; }
+  .timeline-item:nth-child(even) .t-content { grid-column: 3; text-align: left; }
+
+  .t-dot {
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+
+  .t-dot-inner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--gold);
+    background: var(--ink);
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .t-dot-inner::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .t-content .t-date {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .t-content .t-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+
+  .t-content .t-desc {
+    font-size: 0.88rem;
+    color: var(--stone);
+    line-height: 1.7;
+  }
+
+  /* ─── EMPIRE STATS ─── */
+  .empire-section {
+    position: relative;
+  }
+
+  .empire-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 3.5rem;
+    border: 1px solid var(--stone-light);
+  }
+
+  .stat-card {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--stone-light);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .stat-card:last-child { border-right: none; }
+  .stat-card:hover { background: rgba(201,168,76,0.04); }
+
+  .stat-number {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--burgundy);
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ─── EMPIRE DETAIL ─── */
+  .empire-detail {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    margin-top: 5rem;
+    align-items: start;
+  }
+
+  .empire-detail p {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    margin-bottom: 1.3rem;
+    line-height: 1.9;
+  }
+
+  .empire-sidebar {
+    position: relative;
+  }
+
+  .emperors-list {
+    background: var(--ink);
+    padding: 2.5rem;
+  }
+
+  .emperors-list .legend-title { margin-bottom: 1.5rem; }
+
+  .emperor-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .emperor-row:last-child { border-bottom: none; }
+
+  .emperor-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--cream);
+    font-weight: 700;
+  }
+
+  .emperor-role {
+    font-size: 0.78rem;
+    color: var(--stone);
+    font-style: italic;
+  }
+
+  /* ─── LEGACY ─── */
+  .legacy-section {
+    background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+  }
+
+  .legacy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .legacy-card {
+    background: var(--cream);
+    border-top: 3px solid var(--gold);
+    padding: 2.2rem 1.8rem;
+    transition: transform 0.3s;
+  }
+
+  .legacy-card:hover { transform: translateY(-4px); }
+
+  .legacy-card .card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .legacy-card h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 0.8rem;
+  }
+
+  .legacy-card p {
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    line-height: 1.8;
+  }
+
+  /* ─── QUOTE BAND ─── */
+  .quote-band {
+    background: var(--burgundy);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-band::before {
+    content: '"\u201D';
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 15rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-band blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    font-style: italic;
+    color: var(--cream);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-band cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-style: normal;
+  }
+
+  /* ─── FALL ─── */
+  .fall-section {
+    position: relative;
+  }
+
+  .fall-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .fall-content p {
+    font-size: 1.08rem;
+    color: var(--ink-light);
+    margin-bottom: 1.4rem;
+    line-height: 1.9;
+  }
+
+  .fall-dates {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .fall-date-card {
+    flex: 1;
+    min-width: 180px;
+    background: var(--cream-dark);
+    border-left: 3px solid var(--burgundy);
+    padding: 1.4rem 1.5rem;
+  }
+
+  .fall-date-card .fd-year {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--burgundy);
+  }
+
+  .fall-date-card .fd-event {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    margin-top: 0.3rem;
+    line-height: 1.6;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    padding: 4rem 2rem 2.5rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+
+  footer .footer-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold-deep);
+    margin: 0 auto 1.5rem;
+  }
+
+  footer p {
+    font-size: 0.82rem;
+    color: var(--stone);
+    line-height: 2;
+  }
+
+  footer a {
+    color: var(--gold-light);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--gold); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .origins-grid { grid-template-columns: 1fr; }
+    .empire-detail { grid-template-columns: 1fr; }
+    .hills-grid { grid-template-columns: repeat(4, 1fr); }
+    .empire-stats { grid-template-columns: repeat(2, 1fr); }
+    .stat-card { border-bottom: 1px solid var(--stone-light); }
+    .timeline::before { left: 24px; }
+    .timeline-item { grid-template-columns: 48px 1fr; }
+    .timeline-item:nth-child(odd) .t-content,
+    .timeline-item:nth-child(even) .t-content { grid-column: 2; text-align: left; }
+    .timeline-item:nth-child(odd) .t-dot,
+    .timeline-item:nth-child(even) .t-dot { grid-column: 1; }
+    .timeline-item .t-spacer { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .hills-grid { grid-template-columns: repeat(2, 1fr); }
+    .legacy-grid { grid-template-columns: 1fr; }
+    .empire-stats { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Roma Antica</div>
+  <ul class="nav-links">
+    <li><a href="#origini">Origini</a></li>
+    <li><a href="#colline">I Sette Colli</a></li>
+    <li><a href="#storia">Storia</a></li>
+    <li><a href="#impero">Impero</a></li>
+    <li><a href="#eredità">Eredità</a></li>
+    <li><a href="#caduta">Caduta</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="hero-arch" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="180" stroke="#c9a84c" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="150" stroke="#c9a84c" stroke-width="0.3"/>
+    <path d="M80 320 Q200 60 320 320" stroke="#c9a84c" stroke-width="0.6" fill="none"/>
+    <path d="M100 320 Q200 100 300 320" stroke="#c9a84c" stroke-width="0.3" fill="none"/>
+    <line x1="200" y1="20" x2="200" y2="380" stroke="#c9a84c" stroke-width="0.2"/>
+    <line x1="20" y1="200" x2="380" y2="200" stroke="#c9a84c" stroke-width="0.2"/>
+  </svg>
+  <div class="hero-content">
+    <p class="hero-eyebrow">753 a.C. — 476 d.C.</p>
+    <h1 class="hero-title">
+      ROMA
+      <span>Caput Mundi</span>
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">La civiltà che ha modellato l'intero mondo occidentale, dalla monarchia alla repubblica, fino alla grandiosità dell'Impero.</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Scopri</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <p>La più grande metropoli dell'antichità — Un milione di habitantes al suo apice</p>
+</div>
+
+<!-- ORIGINI -->
+<section class="section" id="origini">
+  <div class="section-header reveal">
+    <span class="section-label">Capitolo I</span>
+    <h2 class="section-title">Le Origini della Città Eterna</h2>
+    <div class="section-ornament"></div>
+  </div>
+  <div class="origins-grid">
+    <div class="origins-text reveal">
+      <p>Roma nacque lungo la sponda sinistra del fiume Tevere, nel antico <em>Latium vetus</em>, attraverso un lungo processo di aggregazione dei villaggi che sorgevano sulle colline circostanti. La posizione geografica risultò fondamentale: al crocevia di due importanti vie di comunicazione commerciali, favorendo gli scambi tra le civiltà etrusca e quella greca della Magna Grecia.</p>
+      <p>Il nome stesso della città resta oggetto di dibattito tra gli studiosi: dalla parola greca <em>rhòme</em> (forza), alla radice etrusca <em>ruma</em> (mammella — collegata al mito della lupa che allatta Romolo e Remo), fino alla possibilità che derivasse dal nome antico del Tevere, <em>Rumon</em>, con il significato di "città del fiume".</p>
+      <p>Secondo la tradizione, la fondazione risale al 21 aprile del 753 a.C., quando Romolo, dopo aver ucciso il fratello Remo, traciò il sacro solco sul Palatino che divenne il primo confine della <em>Roma quadrata</em>.</p>
+    </div>
+    <div class="origins-legend reveal">
+      <p class="legend-title">Fondatori Leggendari</p>
+      <div class="legend-item">
+        <span class="legend-year">753 a.C.</span>
+        <span class="legend-desc">Romolo fonda la città sul colle Palatino, dopo il leggendario uccisione di Remo</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-year">Enea</span>
+        <span class="legend-desc">Il mito troiano lo vede fondatore della stirpe che avrebbe generato Romolo e Remo</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-year">Etruschi</span>
+        <span class="legend-desc">Nel VI sec. a.C. i re etruschi guidarono la definitiva urbanizzazione, costruendo la Cloaca Maxima e il primo Foro</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-year">Amor</span>
+        <span class="legend-desc">Una versione geografica legge "Roma" al contrario: Amor — la città nata dall'amore degli dei</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETTE COLLI -->
+<section class="hills-section" id="colline">
+  <div class="hills-container">
+    <div class="section-header reveal">
+      <span class="section-label">Capitolo II</span>
+      <h2 class="section-title">I Sette Colli di Roma</h2>
+      <div class="section-ornament"></div>
+    </div>
+    <div class="hills-grid">
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M3 27 L15 5 L27 27 Z" stroke="#c9a84c" stroke-width="1.2" fill="none"/><circle cx="15" cy="12" r="2.5" fill="#c9a84c" opacity="0.6"/></svg>
+        </div>
+        <p class="hill-name">Palatino</p>
+        <p class="hill-note">Cuore originale della città. Sede del primo villaggio e poi dei palazzi imperiali.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M2 27 L8 12 L15 18 L22 8 L28 27 Z" stroke="#c9a84c" stroke-width="1.2" fill="none"/></svg>
+        </div>
+        <p class="hill-name">Aventino</p>
+        <p class="hill-note">Colle a sud, storicamente abitato dalla plebe e sede dei culti di Diana.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="8" y="8" width="14" height="14" stroke="#c9a84c" stroke-width="1.2" fill="none" transform="rotate(45 15 15)"/><circle cx="15" cy="15" r="2" fill="#c9a84c" opacity="0.5"/></svg>
+        </div>
+        <p class="hill-name">Campidoglio</p>
+        <p class="hill-note">Punto strategico militare. Sede del Tempio di Giove Ottimo Massimo e della Triade Capitolina.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="10" stroke="#c9a84c" stroke-width="1.2" fill="none"/><circle cx="15" cy="15" r="5" stroke="#c9a84c" stroke-width="0.6" fill="none"/></svg>
+        </div>
+        <p class="hill-name">Quirinale</p>
+        <p class="hill-note">Antico insediamento sabino. Divenne sede del palazzo del presidente della Repubblica italiana.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M5 25 L15 5 L25 25" stroke="#c9a84c" stroke-width="1.2" fill="none"/><line x1="10" y1="25" x2="10" y2="18" stroke="#c9a84c" stroke-width="0.6"/><line x1="20" y1="25" x2="20" y2="18" stroke="#c9a84c" stroke-width="0.6"/></svg>
+        </div>
+        <p class="hill-name">Viminale</p>
+        <p class="hill-note">Il più piccolo dei sette colli, presto inglobato nella struttura urbana della città.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M3 25 L10 10 L17 18 L24 6 L28 25" stroke="#c9a84c" stroke-width="1.2" fill="none"/><line x1="3" y1="25" x2="28" y2="25" stroke="#c9a84c" stroke-width="0.4"/></svg>
+        </div>
+        <p class="hill-name">Esquilino</p>
+        <p class="hill-note">Il più grande colle, diventato centro dei quartieri più popolosi durante l'età imperiale.</p>
+      </div>
+      <div class="hill-card reveal">
+        <div class="hill-icon">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><ellipse cx="15" cy="18" rx="10" ry="7" stroke="#c9a84c" stroke-width="1.2" fill="none"/><line x1="15" y1="11" x2="15" y2="4" stroke="#c9a84c" stroke-width="0.8"/></svg>
+        </div>
+        <p class="hill-name">Celio</p>
+        <p class="hill-note">Colle a sud-est,ররicco di monasteri e chiese nell'età cristiana tardoromana.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="storia">
+  <div class="timeline-container">
+    <div class="section-header reveal">
+      <span class="section-label">Capitolo III</span>
+      <h2 class="section-title">Una storia di Millenni</h2>
+      <div class="section-ornament"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <p class="t-date">753 a.C.</p>
+          <p class="t-title">Fondazione</p>
+          <p class="t-desc">Romolo fonda la città sul Palatino secondo la tradizione, dopo aver ucciso il fratello Remo nel celebre leggenda dei gemelli.</p>
+        </div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-spacer"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-spacer"></div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-content">
+          <p class="t-date">VI Secolo a.C.</p>
+          <p class="t-title">L'Età Etrusca</p>
+          <p class="t-desc">I re etruschi guidano l'urbanizzazione: viene costruita la Cloaca Maxima, il Foro Romano viene pavimentato e il Circo Massimo viene eretto.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <p class="t-date">509 a.C.</p>
+          <p class="t-title">La Repubblica</p>
+          <p class="t-desc">L'ultimo re etrusco viene espulso. Roma diventa una repubblica oligarchica, con due consoli eletti annualmente a guidare lo Stato.</p>
+        </div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-spacer"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-spacer"></div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-content">
+          <p class="t-date">264–146 a.C.</p>
+          <p class="t-title">Le Guerre Puniche</p>
+          <p class="t-desc">Tre devastanti guerre contro Cartagine trasformano Roma nella potenza dominante del Mediterraneo occidentale, con la distruzione di Cartagine nel 146 a.C.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <p class="t-date">49 a.C.</p>
+          <p class="t-title">Giulio Cesare</p>
+          <p class="t-desc">Cesare attraversa il Rubicone e diventa dittatore, segnando la crisi finale della Repubblica. Il suo nome diventerà sinonimo di "imperatore".</p>
+        </div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-spacer"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-spacer"></div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-content">
+          <p class="t-date">27 a.C.</p>
+          <p class="t-title">Augusto — L'Primo Imperatore</p>
+          <p class="t-desc">Ottaviano, nipote adottivo di Cesare, diventa <em>princeps civitatis</em> e riceve dal Senato il titolo di Augusto. Nasce l'Impero Romano.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-content">
+          <p class="t-date">117 d.C.</p>
+          <p class="t-title">Massima Espansione</p>
+          <p class="t-desc">Sotto l'imperatore Traiano, l'Impero raggiunge i suoi confini più lontani: 5 milioni di km², dall'Atlantico al Golfo Persico.</p>
+        </div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-spacer"></div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="t-spacer"></div>
+        <div class="t-dot"><div class="t-dot-inner"></div></div>
+        <div class="t-content">
+          <p class="t-date">395 d.C.</p>
+          <p class="t-title">Divisione dell'Impero</p>
+          <p class="t-desc">Dopo la morte di Teodosio I, l'Impero viene diviso in pars occidentalis e pars orientalis. L'Oriente sopravviverà ancora per un millennio come Imperio Byzantino.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-band">
+  <blockquote>
+    "In tutti i territori sui quali estesero i propri confini i Romani costruirono città, strade, ponti, acquedotti, esportando ovunque il loro modello di civiltà."
+  </blockquote>
+  <cite>— Dalla storia dell'Impero Romano</cite>
+</section>
+
+<!-- IMPERO -->
+<section class="section" id="impero">
+  <div class="section-header reveal">
+    <span class="section-label">Capitolo IV</span>
+    <h2 class="section-title">L'Epoca Imperiale</h2>
+    <div class="section-ornament"></div>
+  </div>
+  <div class="empire-stats reveal">
+    <div class="stat-card">
+      <p class="stat-number">5 Mil.</p>
+      <p class="stat-label">Km² di territorio</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">52</p>
+      <p class="stat-label">Stati moderni coperti</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">1 Mil.</p>
+      <p class="stat-label">Inhabitants di Roma</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-number">500</p>
+      <p class="stat-label">Anni di dominio imperiale</p>
+    </div>
+  </div>
+  <div class="empire-detail">
+    <div class="empire-text reveal">
+      <p>L'Impero Romano fu lo Stato più significativo che l'antichità conobbe nell'area euro-mediterranea. Nel 27 a.C., Augusto inaugurò il principato: formalmente restituì il potere al Senato, ma nella pratica concentrò nelle proprie mani l'autorità suprema, avendo ottenuto la <em>tribunicia potestas</em> a vita e l'<em>imperium proconsulare maius</em> su tutte le province.</p>
+      <p>Roma, la sua capitale, era di gran lunga la più popolata città del mondo antico, con circa un milione di habitants. Migliaia di persone affluivano quotidianamente nella capitale via mare e via terra, arricchendola di artisti e letterati provenienti da tutte le regioni dell'Impero. I cittadini godevano di servizi pubblici come terme, acquedotti, teatri e circhi.</p>
+      <p>Dall'epoca di Diocleziano (284 d.C.) la struttura imperiale conobbe profonde riforme amministrative e militari. La tetrarca divideva il potere tra quattro co-sovrani, garantendo una gestione più efficiente dei vasti territori dell'Imperio.</p>
+    </div>
+    <div class="empire-sidebar reveal">
+      <div class="emperors-list">
+        <p class="legend-title">Imperatori Fondamentali</p>
+        <div class="emperor-row">
+          <span class="emperor-name">Augusto</span>
+          <span class="emperor-role">27 a.C. — Primo Imperatore</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Tiberio</span>
+          <span class="emperor-role">14 d.C. — Successore</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Vespasiano</span>
+          <span class="emperor-role">69 d.C. — Fondatore del Colosseo</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Traiano</span>
+          <span class="emperor-role">98 d.C. — Massima Espansione</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Adriano</span>
+          <span class="emperor-role">117 d.C. — Consolidamento</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Diocleziano</span>
+          <span class="emperor-role">284 d.C. — Riforma Imperiale</span>
+        </div>
+        <div class="emperor-row">
+          <span class="emperor-name">Costantino</span>
+          <span class="emperor-role">306 d.C. — Costantinopoli</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EREDITA' -->
+<section class="legacy-section" id="eredità">
+  <div class="section" style="padding-top: 7rem; padding-bottom: 7rem;">
+    <div class="section-header reveal">
+      <span class="section-label">Capitolo V</span>
+      <h2 class="section-title">L'Eredità Immortale</h2>
+      <div class="section-ornament"></div>
+    </div>
+    <div class="legacy-grid">
+      <div class="legacy-card reveal">
+        <span class="card-icon">⚖️</span>
+        <h4>Diritto & Legge</h4>
+        <p>Il diritto romano resta la fondazione del sistema giuridico di quasi tutti i paesi europei. I principi di giustizia, di proprietà e di procedimento penale che i Romani codificarono ancora governano i nostri tribunali.</p>
+      </div>
+      <div class="legacy-card reveal">
+        <span class="card-icon">🏛️</span>
+        <h4>Architettura</h4>
+        <p>Archi, cupole, acquedotti e amphiteatra: i Romani rivoluzionarono la costruzione. Il Colosseo, il Pantheon e le terme di Caracalla restano tra le meraviglie architettoniche della storia umana.</p>
+      </div>
+      <div class="legacy-card reveal">
+        <span class="card-icon">🛣️</span>
+        <h4>Infrastrutture</h4>
+        <p>Le strade romane, oltre 400.000 km di carrozzabili, collegarono l'intero Mediterraneo. Un sistema di acquedotti portava acqua fresca a milioni di cittadini, includendo il celebre Aqua Appia.</p>
+      </div>
+      <div class="legacy-card reveal">
+        <span class="card-icon">📜</span>
+        <h4>Lingua & Letteratura</h4>
+        <p>Il Latino, lingua dei Romani, è la madre delle lingue romanze: italiano, francese, spagnolo, portoghese e rumeno. Virgilio, Cicero e Ovideo hanno formiato la letteratura occidentale.</p>
+      </div>
+      <div class="legacy-card reveal">
+        <span class="card-icon">🏛️</span>
+        <h4>Governo & Politica</h4>
+        <p>Il modello republican romano — con il senato, il voto popolare e la divisione dei poteri — ha ispirato le democrazie moderne, dalla Repubblica Americana in poi.</p>
+      </div>
+      <div class="legacy-card reveal">
+        <span class="card-icon">✝️</span>
+        <h4>Religione</h4>
+        <p>Il Christianismo, predicato durante l'età di Tiberio in Giudea, si diffuse nell'intero Imperio romano. Roma divenne il centro della Chiesa Cattolica, ruolo che mantiene ancora oggi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CADUTA -->
+<section class="section" id="caduta">
+  <div class="section-header reveal">
+    <span class="section-label">Capitolo VI</span>
+    <h2 class="section-title">La Caduta dell'Occidente</h2>
+    <div class="section-ornament"></div>
+  </div>
+  <div class="fall-content">
+    <p class="reveal">Nel corso del III secolo, una crisi profonda colpì l'Empire romano: epidemie, carestie, invasioni barbariche e instabilità politica devastarono le province occidentali. Le frontiere, un tempo impenetrabili, iniziarono a cedere alla pressione dei popoli germanici e delle caravane degli Unni.</p>
+    <p class="reveal">Il sacco di Roma del 410 d.C., ad opera dei Visigoti di Alarico I, fu percepito dai contemporanei come un avvenimento epocale — la fine di un mondo. Sant'Agostino, scrivendo la <em>Città di Dio</em>, cercò di dare un senso teologico a questo crollo. Gli ultimi anni dell'Occidente wurden vissuti in un clima apocalittico di morte e miseria.</p>
+    <p class="reveal">La divisione dell'Empire nel 395 d.C. accelerò il declino dell'Occidente, mentre l'Oriente — più ricco e più vicino ai centri di commercio — continuò a fiorire per ancora un millennio come Imperium Byzantinum.</p>
+    <div class="fall-dates reveal">
+      <div class="fall-date-card">
+        <p class="fd-year">378</p>
+        <p class="fd-event">Battaglia di Adrianopoli — I Visigoti sfiancano l'esercito romano</p>
+      </div>
+      <div class="fall-date-card">
+        <p class="fd-year">410</p>
+        <p class="fd-event">Il Sacco di Roma — Alarico I saccheggia la Città Eterna</p>
+      </div>
+      <div class="fall-date-card">
+        <p class="fd-year">476</p>
+        <p class="fd-event">Caduta dell'Occidente — Odoacre depone Romolo Augusto, l'ultimo imperatore</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-logo">ROMA</p>
+  <div class="footer-divider"></div>
+  <p>Un viaggio attraverso la civiltà che ha modellato il mondo.<br>
+  Fonti: <a href="https://it.wikipedia.org/wiki/Civiltà_romana" target="_blank">Civiltà Romana</a> · <a href="https://it.wikipedia.org/wiki/Impero_romano" target="_blank">Impero Romano</a> · <a href="https://it.wikipedia.org/wiki/Roma_(città_antica)" target="_blank">Roma (città antica)</a></p>
+  <p style="margin-top: 1.5rem; opacity: 0.5; font-size: 0.72rem;">© 2026 — Sito didattico basato su fonti Wikipedia italiane</p>
+</footer>
+
+<!-- SCROLL REVEAL SCRIPT -->
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
