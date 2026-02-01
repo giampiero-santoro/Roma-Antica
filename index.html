@@ -119,6 +119,71 @@
   nav .nav-links a:hover { color: var(--gold-deep); }
   nav .nav-links a:hover::after { width: 100%; }
 
+  /* --- HAMBURGER & SIDEBAR NAV RESPONSIVE --- */
+  @media (max-width: 900px) {
+    nav {
+      padding: 1rem 1rem;
+    }
+    nav .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      justify-content: center;
+      align-items: center;
+      z-index: 201;
+    }
+    nav .nav-toggle span {
+      height: 3px;
+      width: 26px;
+      background: var(--gold-deep);
+      border-radius: 2px;
+      margin: 0;
+      transition: all 0.3s;
+    }
+    nav .nav-links {
+      position: fixed;
+      top: 0;
+      right: -100vw;
+      width: 75vw;
+      max-width: 320px;
+      height: 100vh;
+      background: rgba(244,239,230,0.98);
+      flex-direction: column;
+      gap: 2.5rem;
+      padding: 6rem 2rem 2rem 2rem;
+      box-shadow: -8px 0 32px rgba(26,21,16,0.08);
+      transition: right 0.35s cubic-bezier(.7,.2,.3,1);
+      z-index: 200;
+      align-items: flex-start;
+      display: flex;
+    }
+    nav .nav-links.open {
+      right: 0;
+    }
+    nav .nav-links li {
+      width: 100%;
+    }
+    nav .nav-links a {
+      font-size: 1.1rem;
+      padding: 0.7rem 0;
+      color: var(--ink-light);
+      width: 100%;
+      display: block;
+    }
+  }
+  /* Hamburger animation */
+  nav .nav-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  nav .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  nav .nav-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
   /* ─── HERO ─── */
   .hero {
     height: 100vh;
