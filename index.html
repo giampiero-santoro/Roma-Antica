@@ -73,6 +73,20 @@
     font-weight: 700;
   }
 
+  nav .nav-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  nav .nav-toggle span {
+    height: 3px;
+    width: 25px;
+    background: var(--ink-light);
+    margin: 4px 0;
+    transition: all 0.3s;
+  }
+
   nav .nav-links {
     display: flex;
     gap: 2.2rem;
@@ -828,6 +842,9 @@
 <!-- NAV -->
 <nav>
   <div class="logo">Roma Antica</div>
+  <div class="nav-toggle" id="navToggle" aria-label="Apri menu" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
   <ul class="nav-links">
     <li><a href="#origini">Origini</a></li>
     <li><a href="#colline">I Sette Colli</a></li>
