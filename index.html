@@ -1301,6 +1301,24 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
   reveals.forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    navToggle.classList.toggle('active');
+  });
+  navToggle.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') navToggle.click();
+  });
+  // Chiudi menu al click su un link (mobile)
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('active');
+    });
+  });
 </script>
 
 </body>
